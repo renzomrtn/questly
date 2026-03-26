@@ -6,7 +6,7 @@ from app.config import settings
 engine = create_async_engine(
     settings.database_url,
     echo=settings.debug,
-    connect_args={"check_same_thread": False},
+    # connect_args removed — was SQLite only
 )
 
 AsyncSessionLocal = async_sessionmaker(

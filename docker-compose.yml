@@ -4,18 +4,26 @@ services:
     ports:
       - "8000:8000"
     env_file: .env
-    volumes:
-      - sqlite_data:/data   # ← persists your .db file
+    depends_on:
+      - db
 
   frontend:
     build: ./questly-frontend
     ports:
       - "3000:3000"
     environment:
-      - NUXT_PUBLIC_API_BASE=http://localhost:8000    # browser → backend
-      - NUXT_API_BASE=http://backend:8000             # server-side → backend
+      - NUXT_PUBLIC_API_BASE=http://localhost:8000
     depends_on:
       - backend
 
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: questly
+      POSTGRES_USER: questly
+      POSTGRES_PASSWORD: questly
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
 volumes:
-  sqlite_data:
+  postgres_data:
