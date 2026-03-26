@@ -1,0 +1,1 @@
+import SvgIcon from '@jamescoyle/vue-icon';
