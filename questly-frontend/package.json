@@ -7,12 +7,19 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "build:mobile": "dotenv -e .env.mobile nuxt generate && npx cap sync android"
   },
   "dependencies": {
+    "@capacitor/android": "^8.3.0",
+    "@capacitor/cli": "^8.3.0",
+    "@capacitor/core": "^8.3.0",
     "@mdi/font": "^7.4.47",
     "nuxt": "^4.4.2",
     "vue": "^3.5.30",
     "vue-router": "^5.0.4"
+  },
+  "devDependencies": {
+    "dotenv-cli": "^11.0.0"
   }
 }
