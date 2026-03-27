@@ -31,6 +31,9 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
+        "https://questly-production-75dc.up.railway.app",  # Railway frontend (future)
+        "capacitor://localhost",                            # Capacitor mobile app
+        "http://localhost",                                 # Capacitor fallback
         "http://localhost:3000",
         "http://localhost:8080",
         "http://127.0.0.1:3000",
