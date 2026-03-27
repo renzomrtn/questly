@@ -5,7 +5,7 @@ const config: CapacitorConfig = {
   appName: 'Questly',
   webDir: '.output/public',    // ← where Nuxt puts static build output
   server: {
-    androidScheme: 'http'
+    androidScheme: 'https'
   }
 };
 

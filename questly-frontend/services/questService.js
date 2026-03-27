@@ -1,5 +1,7 @@
 // services/questService.js
-const BASE_URL = import.meta.env.NUXT_PUBLIC_API_BASE || 'http://localhost:8000'
+const nuxtApp = useNuxtApp()
+const BASE_URL = nuxtApp.$config.public.apiBase
+//const BASE_URL = import.meta.env.NUXT_PUBLIC_API_BASE || 'http://localhost:8000'
 console.log('API BASE URL:', BASE_URL)
 
 // ── Token helpers ─────────────────────────────────────────────────────────────
