@@ -34,7 +34,9 @@ app.add_middleware(
         "https://questly-production-75dc.up.railway.app",  # Railway frontend (future)
         "capacitor://localhost",                            # Capacitor mobile app
         "http://localhost",                                 # Capacitor fallback
+        "https://localhost",
         "http://localhost:3000",
+        "https://localhost:3000",
         "http://localhost:8080",
         "http://127.0.0.1:3000",
         "http://127.0.0.1:8080",
