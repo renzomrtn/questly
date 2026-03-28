@@ -12,9 +12,9 @@
             <i class="mdi mdi-account-badge-outline"></i>
         </NuxtLink>
 
-        <NuxtLink to="/SettingsView" class="nav-item" :class="{ active: route.path === '/SettingsView' }">
+        <!--<NuxtLink to="/SettingsView" class="nav-item" :class="{ active: route.path === '/SettingsView' }">
             <i class="mdi mdi-cog"></i>
-        </NuxtLink>
+        </NuxtLink>-->
     </section>
 </template>
 

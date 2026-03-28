@@ -14,7 +14,7 @@
                 {{ stats?.streak_days ?? 0 }}d
             </div>
             <button class="btn-logout" @click="logout" title="Logout">
-                <i class="mdi mdi-logout"></i>
+                <i class="mdi mdi-logout"></i> Logout
             </button>
         </div>
     </section>
