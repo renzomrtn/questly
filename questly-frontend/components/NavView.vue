@@ -32,8 +32,10 @@ const route = useRoute()
     display: flex;
     gap: 14px;
     padding: 10px 18px;
+    border: 1px solid #2d2d55;
+
     border-radius: 99px;
-    background: #1f1f3d;
+    background: #0d0d1a;
     justify-content: space-between;
 }
 
@@ -49,8 +51,8 @@ const route = useRoute()
 }
 
 .nav-item.active {
-    color: #ffffff;
-    background-color: rgba(99, 181, 236, 0.3);
+    color: rgb(255, 255, 255);
+    background-color: rgba(106, 176, 255, 0.5);
     border-radius: 12px;
 }
 

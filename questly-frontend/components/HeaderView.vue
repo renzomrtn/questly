@@ -14,7 +14,7 @@
                 {{ stats?.streak_days ?? 0 }}d
             </div>
             <button class="btn-logout" @click="logout" title="Logout">
-                <i class="mdi mdi-logout"></i> Logout
+                <i class="mdi mdi-logout"></i>
             </button>
         </div>
     </section>
@@ -49,13 +49,14 @@ onMounted(async () => {
 
 <style scoped>
 section {
-    height: fit-content;
     display: flex;
     color: #fff;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 14px;
-    border-bottom: 1px solid #1e1e38;
+    padding: 10px 18px;
+    border: 1px solid #2d2d55;
+    border-radius: 99px;
+
     background: #0d0d1a;
     gap: 8px;
 }
@@ -141,7 +142,7 @@ h1 span {
     background: #f84e4e;
     border: 1px solid #2a2a42;
     color: #5a5a7a;
-    width: 28px;
+    width: 30px;
     height: 28px;
     border-radius: 8px;
     display: flex;
