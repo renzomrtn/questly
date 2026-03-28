@@ -38,21 +38,29 @@ async function api(path, options = {}) {
     ...options.headers,
   }
 
-  const res = await fetch(`${BASE_URL}${path}`, {
-    ...options,
-    headers,
-  })
+  try {
+    const res = await fetch(`${BASE_URL}${path}`, {
+      ...options,
+      headers,
+    })
 
-  if (res.status === 204) return null
+    if (res.status === 204) return null
 
-  const data = await res.json()
+    const data = await res.json()
 
-  if (!res.ok) {
-    // FastAPI error shape: { detail: "..." }
-    throw new Error(data.detail || `Request failed: ${res.status}`)
+    if (!res.ok) {
+      throw new Error(data.detail || `Request failed: ${res.status}`)
+    }
+
+    return data
+
+  } catch (err) {
+    // Native fetch errors (no internet, timeout, DNS failure etc.)
+    if (err.message === 'Failed to fetch' || err instanceof TypeError) {
+      throw new Error('Unable to connect. Please check your internet connection.')
+    }
+    throw err  // re-throw API errors as normal
   }
-
-  return data
 }
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
