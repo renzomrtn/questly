@@ -28,7 +28,7 @@
                     <div class="profile-card">
                         <div class="profile-card-left">
                             <img v-if="profile?.avatar_url" :src="profile.avatar_url" class="avatar-img" alt="avatar" />
-                            <i v-else class="mdi mdi-account"></i>
+                            <img v-else class="adventurer-avatar" :src="avatarImage" alt="avatar" />
                         </div>
                         <div class="profile-card-right">
                             <div class="stat-card_num">{{ profile?.name }}</div>
@@ -80,7 +80,7 @@
 
                 <div v-for="item in achievements" :key="item.id" class="achievement-card">
                     <div class="ach-icon">
-                        <i :class="`mdi mdi-${item.achievement?.icon ?? 'trophy'}`"></i>
+                    {{item.achievement?.icon ?? '🏆'}}
                     </div>
                     <div class="ach-info">
                         <div class="ach-name">{{ item.achievement?.name }}</div>
@@ -97,6 +97,7 @@
 import { ref, computed, onMounted } from 'vue'
 import questService from '@/services/questService'
 import { useRouter } from 'vue-router'
+import avatarImage from '../assets/chat-adventurer.png'
 
 const router = useRouter()
 
@@ -250,6 +251,16 @@ function logout() {
     padding: 14px;
     display: flex;
     font-size: small;
+}
+
+.profile-card {
+    display: flex;
+    gap: 10px;
+}
+
+.adventurer-avatar {
+    width: 100%;
+    height: 100%;
 }
 
 .quest-card {
