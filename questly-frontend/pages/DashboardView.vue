@@ -126,6 +126,7 @@ onMounted(async () => {
 
 <style scoped>
 .dashboard {
+    padding-top: 50px;
     padding-bottom: 80px;
 }
 

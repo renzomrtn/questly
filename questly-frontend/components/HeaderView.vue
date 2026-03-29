@@ -1,5 +1,5 @@
 <template>
-    <section>
+    <section class="header">
         <h1>Quest<span>ly</span></h1>
         <div class="wrapper">
             <div class="energy-bar">
@@ -13,19 +13,14 @@
                 <i class="mdi mdi-fire"></i>
                 {{ stats?.streak_days ?? 0 }}d
             </div>
-            <button class="btn-logout" @click="logout" title="Logout">
-                <i class="mdi mdi-logout"></i>
-            </button>
         </div>
     </section>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
 import questService from '@/services/questService'
 
-const router = useRouter()
 const stats = ref(null)
 
 const energyPercent = computed(() => {
@@ -33,10 +28,7 @@ const energyPercent = computed(() => {
     return Math.round((stats.value.current_energy / stats.value.max_energy) * 100)
 })
 
-function logout() {
-    questService.auth.logout()
-    router.push('/LoginView')
-}
+
 
 onMounted(async () => {
     try {
@@ -48,7 +40,11 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-section {
+.header {
+    width: 80%;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     color: #fff;
     justify-content: space-between;
@@ -56,14 +52,13 @@ section {
     padding: 10px 18px;
     border: 1px solid #2d2d55;
     border-radius: 99px;
-
     background: #0d0d1a;
     gap: 8px;
 }
 
 h1 {
     font-family: 'Rajdhani', sans-serif;
-    font-size: 20px;
+    font-size: 25px;
     font-weight: 700;
     margin: 0;
     white-space: nowrap;
@@ -137,24 +132,5 @@ h1 span {
     font-size: 13px;
 }
 
-/* Logout */
-.btn-logout {
-    background: #f84e4e;
-    border: 1px solid #2a2a42;
-    color: #5a5a7a;
-    width: 30px;
-    height: 28px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    flex-shrink: 0;
-    transition: color 0.2s, border-color 0.2s;
-}
 
-.btn-logout .mdi {
-    font-size: 14px;
-    color: white;
-}
 </style>

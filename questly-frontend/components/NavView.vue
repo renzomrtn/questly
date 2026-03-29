@@ -33,7 +33,6 @@ const route = useRoute()
     gap: 14px;
     padding: 10px 18px;
     border: 1px solid #2d2d55;
-
     border-radius: 99px;
     background: #0d0d1a;
     justify-content: space-between;

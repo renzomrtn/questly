@@ -112,8 +112,8 @@
                 </form>
             </div>
         </div>
-        <NavView />
     </Teleport>
+    <NavView />
     <ModalAlert :visible="modalVisible" :title="modalTitle" :message="modalMessage" :type="modalType"
         @close="modalVisible = false" />
 </template>
@@ -271,6 +271,7 @@ function showModal(title, message, type = 'info') {
 
 <style scoped>
 .quests-page {
+    padding-top: 50px;
     padding-bottom: 80px;
 }
 

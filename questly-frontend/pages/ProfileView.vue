@@ -3,8 +3,17 @@
     <div class="profile">
         <div class="profile-page_header">
             <div class="profile-page_label">PLAYER</div>
-            <h1>Profile</h1>
-            <p>Your Profile Information and Statistics</p>
+            <div class="page_label_container">
+                <div class="page_label_left">
+                    <h1>Profile</h1>
+                    <p>Your Profile Information and Statistics</p>
+                </div>
+                <div class="page_label_right">
+                    <button class="btn-logout" @click="logout" title="Logout">
+                        <i class="mdi mdi-logout"></i> Logout
+                    </button>
+                </div>
+            </div>
         </div>
 
         <div class="profile-page_toolbar">
@@ -54,7 +63,8 @@
                         <div class="progress">
                             <div class="progress-bar" :style="{ width: progressPercent + '%' }"></div>
                         </div>
-                        <div class="stat-card_lbl">{{ stats?.xp_to_next_level ?? 0 }} XP until Level {{ (stats?.level ?? 0) + 1 }}</div>
+                        <div class="stat-card_lbl">{{ stats?.xp_to_next_level ?? 0 }} XP until Level {{ (stats?.level ??
+                            0) + 1 }}</div>
                     </div>
                 </div>
             </div>
@@ -68,11 +78,7 @@
                     No achievements yet. Complete quests to earn some!
                 </div>
 
-                <div
-                    v-for="item in achievements"
-                    :key="item.id"
-                    class="achievement-card"
-                >
+                <div v-for="item in achievements" :key="item.id" class="achievement-card">
                     <div class="ach-icon">
                         <i :class="`mdi mdi-${item.achievement?.icon ?? 'trophy'}`"></i>
                     </div>
@@ -90,6 +96,9 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import questService from '@/services/questService'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 definePageMeta({ middleware: 'auth' })
 
@@ -126,12 +135,44 @@ onMounted(async () => {
         loading.value = false
     }
 })
+
+function logout() {
+    questService.auth.logout()
+    router.push('/LoginView')
+}
 </script>
 
 <style scoped>
 .profile {
+    padding-top: 50px;
     padding-bottom: 80px;
     color: #bfbfcc;
+}
+
+.page_label_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Logout */
+.btn-logout {
+    background: #f84e4e;
+    border: 1px solid #2a2a42;
+    color: white;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.btn-logout .mdi {
+    font-size: 14px;
 }
 
 .loading-state {
@@ -185,6 +226,7 @@ onMounted(async () => {
     border-radius: 20px;
     cursor: pointer;
 }
+
 .quest-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
