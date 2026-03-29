@@ -15,11 +15,11 @@
                 </div>
             </div>
         </div>
-
+        <!--
         <div class="profile-page_toolbar">
             <button class="btn-new" @click="">Edit Profile</button>
         </div>
-
+        -->
         <div v-if="loading" class="loading-state">Loading...</div>
 
         <template v-else>
