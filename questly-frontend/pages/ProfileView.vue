@@ -15,11 +15,9 @@
                 </div>
             </div>
         </div>
-        <!--
         <div class="profile-page_toolbar">
-            <button class="btn-new" @click="">Edit Profile</button>
+            <button class="btn-new" @click="openEdit">Edit Profile</button>
         </div>
-        -->
         <div v-if="loading" class="loading-state">Loading...</div>
 
         <template v-else>
@@ -90,6 +88,35 @@
             </div>
         </template>
     </div>
+    <!-- Edit Profile Modal -->
+    <Teleport to="body">
+        <div v-if="showEdit" class="modal-overlay" @click.self="showEdit = false">
+            <div class="modal">
+                <h2>Edit Profile</h2>
+                <form @submit.prevent="saveProfile">
+                    <div class="field">
+                        <label>Display Name</label>
+                        <input v-model="editForm.name" type="text" placeholder="Your name" required />
+                    </div>
+                    <div class="field">
+                        <label>Bio (optional)</label>
+                        <textarea v-model="editForm.bio" placeholder="Tell us about yourself..." rows="2"></textarea>
+                    </div>
+                    <div class="field">
+                        <label>Avatar URL (optional)</label>
+                        <input v-model="editForm.avatar_url" type="url" placeholder="https://..." />
+                    </div>
+                    <div v-if="editError" class="form-error">{{ editError }}</div>
+                    <div class="modal_actions">
+                        <button type="button" class="btn-cancel" @click="showEdit = false">Cancel</button>
+                        <button type="submit" class="btn-submit" :disabled="saving">
+                            {{ saving ? 'Saving...' : 'Save Changes' }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </Teleport>
     <NavView />
 </template>
 
@@ -140,6 +167,46 @@ onMounted(async () => {
 function logout() {
     questService.auth.logout()
     router.push('/LoginView')
+}
+
+// ── Edit Profile ──────────────────────────────────────────────────────────────
+const showEdit = ref(false)
+const saving = ref(false)
+const editError = ref(null)
+
+const editForm = ref({
+    name: '',
+    bio: '',
+    avatar_url: '',
+})
+
+function openEdit() {
+    // Pre-fill with current profile data
+    editForm.value = {
+        name: profile.value?.name ?? '',
+        bio: profile.value?.bio ?? '',
+        avatar_url: profile.value?.avatar_url ?? '',
+    }
+    editError.value = null
+    showEdit.value = true
+}
+
+async function saveProfile() {
+    saving.value = true
+    editError.value = null
+    try {
+        const payload = { ...editForm.value }
+        if (!payload.bio) delete payload.bio
+        if (!payload.avatar_url) delete payload.avatar_url
+
+        const updated = await questService.players.updateProfile(payload)
+        profile.value = updated   // reflect changes immediately
+        showEdit.value = false
+    } catch (err) {
+        editError.value = err.message
+    } finally {
+        saving.value = false
+    }
 }
 </script>
 
@@ -364,5 +431,100 @@ function logout() {
 .ach-lbl {
     font-size: 11px;
     color: #5a5a7a;
+}
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: flex-end;
+    z-index: 100;
+}
+
+.modal {
+    background: #111128;
+    border: 1px solid #2a2a42;
+    border-radius: 24px 24px 0 0;
+    padding: 1.5rem;
+    width: 100%;
+}
+
+.modal h2 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.field label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #8888aa;
+}
+
+.field input,
+.field textarea {
+    background: #0d0d1a;
+    border: 1px solid #2a2a42;
+    border-radius: 10px;
+    padding: 9px 12px;
+    font-size: 13px;
+    color: #fff;
+    outline: none;
+}
+
+.field input:focus,
+.field textarea:focus {
+    border-color: #3d2fff;
+}
+
+.form-error {
+    font-size: 12px;
+    color: #ef4444;
+    margin-bottom: 8px;
+}
+
+.modal_actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 1rem;
+}
+
+.btn-cancel {
+    flex: 1;
+    background: #1a1a2e;
+    border: none;
+    color: #8888aa;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 11px;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.btn-submit {
+    flex: 2;
+    background: #3d2fff;
+    border: none;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 11px;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.btn-submit:disabled {
+    opacity: 0.6;
 }
 </style>
