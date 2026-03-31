@@ -26,7 +26,7 @@
                     <div class="profile-card">
                         <div class="profile-card-left">
                             <img v-if="profile?.avatar_url" :src="profile.avatar_url" class="avatar-img" alt="avatar" />
-                            <img v-else class="adventurer-avatar" :src="avatarImage" alt="avatar" />
+                            <img v-else class="adventurer-avatar" :src="avatarImage" alt="default-avatar" />
                         </div>
                         <div class="profile-card-right">
                             <div class="stat-card_num">{{ profile?.name }}</div>
@@ -78,7 +78,7 @@
 
                 <div v-for="item in achievements" :key="item.id" class="achievement-card">
                     <div class="ach-icon">
-                    {{item.achievement?.icon ?? '🏆'}}
+                        {{ item.achievement?.icon ?? '🏆' }}
                     </div>
                     <div class="ach-info">
                         <div class="ach-name">{{ item.achievement?.name }}</div>
@@ -103,8 +103,14 @@
                         <textarea v-model="editForm.bio" placeholder="Tell us about yourself..." rows="2"></textarea>
                     </div>
                     <div class="field">
-                        <label>Avatar URL (optional)</label>
-                        <input v-model="editForm.avatar_url" type="url" placeholder="https://..." />
+                        <label>Choose Avatar</label>
+                        <div class="avatar-picker">
+                            <button v-for="src in PRESET_AVATARS" :key="src" type="button" class="avatar-option"
+                                :class="{ 'avatar-option--selected': editForm.avatar_url === src }"
+                                @click="editForm.avatar_url = src">
+                                <img :src="src" :alt="src" />
+                            </button>
+                        </div>
                     </div>
                     <div v-if="editError" class="form-error">{{ editError }}</div>
                     <div class="modal_actions">
@@ -124,7 +130,7 @@
 import { ref, computed, onMounted } from 'vue'
 import questService from '@/services/questService'
 import { useRouter } from 'vue-router'
-import avatarImage from '../assets/chat-adventurer.png'
+import avatarImage from '../public/avatars/chat_warrior.png'
 
 const router = useRouter()
 
@@ -180,12 +186,20 @@ const editForm = ref({
     avatar_url: '',
 })
 
+// ── Avatar presets ─────────────────────────────────────────────────────────
+const PRESET_AVATARS = [
+    '/avatars/chat_warrior.png',
+    '/avatars/chat_mage.png',
+    '/avatars/chat_assassin.png',
+    '/avatars/chat_archer.png',
+    '/avatars/chat_tank.png'
+]
+
 function openEdit() {
-    // Pre-fill with current profile data
     editForm.value = {
         name: profile.value?.name ?? '',
         bio: profile.value?.bio ?? '',
-        avatar_url: profile.value?.avatar_url ?? '',
+        avatar_url: profile.value?.avatar_url ?? PRESET_AVATARS[0],
     }
     editError.value = null
     showEdit.value = true
@@ -197,10 +211,10 @@ async function saveProfile() {
     try {
         const payload = { ...editForm.value }
         if (!payload.bio) delete payload.bio
-        if (!payload.avatar_url) delete payload.avatar_url
+        // avatar_url is always set from the picker, so keep it
 
         const updated = await questService.players.updateProfile(payload)
-        profile.value = updated   // reflect changes immediately
+        profile.value = updated
         showEdit.value = false
     } catch (err) {
         editError.value = err.message
@@ -325,9 +339,10 @@ async function saveProfile() {
     gap: 10px;
 }
 
-.adventurer-avatar {
+.adventurer-avatar, .avatar-img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
 }
 
 .quest-card {
@@ -367,13 +382,6 @@ async function saveProfile() {
 .profile-card-left,
 .profile-card-right {
     border: #1f1f3d 1px solid;
-}
-
-.avatar-img {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    object-fit: cover;
 }
 
 .bio {
@@ -435,6 +443,7 @@ async function saveProfile() {
 
 /* Modal */
 .modal-overlay {
+    width: 100%;
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.7);
@@ -460,6 +469,7 @@ async function saveProfile() {
 }
 
 .field {
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -526,5 +536,42 @@ async function saveProfile() {
 
 .btn-submit:disabled {
     opacity: 0.6;
+}
+
+.avatar-picker {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.avatar-option {
+    background: #0d0d1a;
+    border: 2px solid #2a2a42;
+    border-radius: 10px;
+    padding: 6px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-option img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.avatar-option--selected {
+    border-color: #3d2fff;
+    background: #1a1040;
+}
+
+.avatar-option:hover:not(.avatar-option--selected) {
+    border-color: #5a5a7a;
 }
 </style>
