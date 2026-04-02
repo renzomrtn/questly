@@ -192,7 +192,8 @@ const PRESET_AVATARS = [
     '/avatars/chat_mage.png',
     '/avatars/chat_assassin.png',
     '/avatars/chat_archer.png',
-    '/avatars/chat_tank.png'
+    '/avatars/chat_tank.png',
+    '/avatars/chat_healer.png'
 ]
 
 function openEdit() {
