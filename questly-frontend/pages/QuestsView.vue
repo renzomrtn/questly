@@ -36,9 +36,7 @@
                 <div class="quest-item_xp">
                     <span>+{{ quest.xp_reward }} XP</span>
                 </div>
-                <div class="quest-item_actions">
-                    
-                </div>
+                <span v-if="isOverdue(quest)" class="overdue-badge">Overdue</span>
             </div>
 
             <div v-if="filteredQuests.length === 0" class="quests-page_empty">
@@ -298,6 +296,11 @@ async function createQuest() {
     }
 }
 
+function isOverdue(quest) {
+    if (!quest.due_date || quest.status === 'completed') return false
+    return new Date(quest.due_date) < new Date()
+}
+
 const modalVisible = ref(false)
 const modalTitle = ref('')
 const modalMessage = ref('')
@@ -516,34 +519,13 @@ function showModal(title, message, type = 'info') {
     color: #6739f1;
 }
 
-.quest-item_actions {
-    display: flex;
-    gap: 4px;
-    flex-shrink: 0;
-}
-
-.action-btn {
-    font-size: 10px;
-    font-weight: 600;
+.overdue-badge {
+    background: #1a0e3a;
+    color: rgb(228, 8, 8);
+    font-size: 11px;
     padding: 4px 8px;
+    border: 1px solid #2d1f5a;
     border-radius: 8px;
-    border: none;
-    cursor: pointer;
-}
-
-.action-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.action-btn_start {
-    background: #1a1a2e;
-    color: #4f8fff;
-}
-
-.action-btn_complete {
-    background: #0a2318;
-    color: #22c55e;
 }
 
 /* Toast */
