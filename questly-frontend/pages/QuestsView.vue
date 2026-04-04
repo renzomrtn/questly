@@ -25,7 +25,7 @@
 
         <!-- Quest list -->
         <div v-else class="quest-list">
-            <div v-for="quest in filteredQuests" :key="quest.id" class="quest-item">
+            <div v-for="quest in filteredQuests" :key="quest.id" class="quest-item" @click="openDetails(quest)">
                 <div class="quest-item_info">
                     <div class="quest-item_name">{{ quest.name }}</div>
                     <div class="quest-item_tags">
@@ -37,14 +37,7 @@
                     <span>+{{ quest.xp_reward }} XP</span>
                 </div>
                 <div class="quest-item_actions">
-                    <button v-if="quest.status === 'pending'" class="action-btn action-btn_start"
-                        @click="startQuest(quest.id)" :disabled="actionLoading === quest.id">
-                        Start
-                    </button>
-                    <button v-if="quest.status === 'in_progress'" class="action-btn action-btn_complete"
-                        @click="completeQuest(quest.id)" :disabled="actionLoading === quest.id">
-                        {{ actionLoading === quest.id ? '...' : 'Complete' }}
-                    </button>
+                    
                 </div>
             </div>
 
@@ -113,6 +106,46 @@
             </div>
         </div>
     </Teleport>
+    <Teleport to="body">
+        <div v-if="showDetails" class="modal-overlay" @click.self="showDetails = false">
+            <div class="modal">
+                <h2>{{ selectedQuest.name }}</h2>
+                <p v-if="selectedQuest.description" class="detail-desc">{{ selectedQuest.description }}</p>
+                <p v-if="selectedQuest.due_date" class="detail-due">{{ selectedQuest.due_date }}</p>
+
+                <div class="detail-row">
+                    <span class="tag" :class="`tag--${selectedQuest.status}`">{{ formatStatus(selectedQuest.status) }}</span>
+                    <span class="tag" :class="`tag--${selectedQuest.priority}`">{{ selectedQuest.priority }}</span>
+                </div>
+
+                <div class="detail-row">
+                    <div class="quest-item_xp" style="margin-top: 10px; width: fit-content;">
+                        <span>+{{ selectedQuest.xp_reward }} XP</span>
+                    </div>
+                    <div class="quest-item_energy" style="margin-top: 10px; width: fit-content;">
+                        <span>-{{ selectedQuest.energy_cost }} Energy</span>
+                    </div>
+                </div>
+                
+
+                <div class="modal_actions" style="margin-top: 1.5rem;">
+                    <button class="btn-cancel" @click="showDetails = false">Close</button>
+                    <button
+                        v-if="selectedQuest.status === 'pending'"
+                        class="btn-submit"
+                        @click="startQuest(selectedQuest.id); showDetails = false">
+                        Start Quest
+                    </button>
+                    <button
+                        v-if="selectedQuest.status === 'in_progress'"
+                        class="btn-submit"
+                        @click="completeQuest(selectedQuest.id); showDetails = false">
+                        Complete Quest
+                    </button>
+                </div>
+            </div>
+        </div>
+    </Teleport>
     <NavView />
     <ModalAlert :visible="modalVisible" :title="modalTitle" :message="modalMessage" :type="modalType"
         @close="modalVisible = false" />
@@ -123,7 +156,7 @@ definePageMeta({ middleware: 'auth' })
 import { ref, computed, onMounted } from 'vue'
 import api from '@/services/questService'
 
-// ── Tabs
+// -- Tabs
 
 const tabs = [
     { label: 'All', value: 'all' },
@@ -132,9 +165,9 @@ const tabs = [
     { label: 'Completed', value: 'completed' },
 ]
 
-const activeTab = ref('all')
+const activeTab = ref('pending')
 
-// ── State
+// -- State
 
 const quests = ref([])
 const loading = ref(false)
@@ -142,6 +175,15 @@ const error = ref(null)
 const actionLoading = ref(null)   // holds the quest id currently being acted on
 const toast = ref(null)
 let toastTimer = null
+
+// -- Tasks
+const showDetails = ref(false)
+const selectedQuest = ref(null)
+
+function openDetails(quest) {
+    selectedQuest.value = quest
+    showDetails.value = true
+}
 
 // ── Fetch quests from backend
 
@@ -423,7 +465,7 @@ function showModal(title, message, type = 'info') {
 
 .tag--pending {
     background: #151520;
-    color: #5a5a7a;
+    color: #70708d;
 }
 
 .tag--failed {
@@ -451,7 +493,7 @@ function showModal(title, message, type = 'info') {
     color: #4ade80;
 }
 
-.quest-item_xp {
+.quest-item_xp, .quest-item_energy {
     background: #1a0e3a;
     border: 1px solid #2d1f5a;
     border-radius: 8px;
@@ -466,6 +508,12 @@ function showModal(title, message, type = 'info') {
     font-size: 11px;
     font-weight: 700;
     color: #a78bfa;
+}
+
+.quest-item_energy {
+    font-size: 11px;
+    font-weight: 700;
+    color: #6739f1;
 }
 
 .quest-item_actions {
@@ -642,5 +690,15 @@ function showModal(title, message, type = 'info') {
 
 .btn-submit:disabled {
     opacity: 0.6;
+}
+
+.modal-overlay p {
+    color: #585f58;
+    font-size: small;
+}
+
+.detail-row {
+    display: flex;
+    gap: 5px;
 }
 </style>
