@@ -18,7 +18,7 @@ async def seed_achievements(db: AsyncSession) -> None:
              trigger=AchievementTrigger.signup, threshold=1, xp_bonus=50),
 
         # Quest completions
-        dict(name="First Blood", description="Complete your first quest", icon="🌟",
+        dict(name="First Blood", description="Complete your first quest", icon="🗡️",
              trigger=AchievementTrigger.quest_completed, threshold=1, xp_bonus=25),
         dict(name="Getting Warmed Up", description="Complete 10 quests", icon="🔥",
              trigger=AchievementTrigger.quest_completed, threshold=10, xp_bonus=100),
@@ -44,7 +44,7 @@ async def seed_achievements(db: AsyncSession) -> None:
              trigger=AchievementTrigger.streak_reached, threshold=30, xp_bonus=500),
 
         # XP milestones
-        dict(name="An Unexpected Journey", description="First sign-up — your journey begins", icon="🧭",
+        dict(name="An Unexpected Journey", description="First sign-up — your journey begins", icon="🗺️",
              trigger=AchievementTrigger.signup, threshold=1, xp_bonus=0),
         dict(name="XP Collector", description="Earn 1,000 total XP", icon="✨",
              trigger=AchievementTrigger.xp_earned, threshold=1000, xp_bonus=100),
