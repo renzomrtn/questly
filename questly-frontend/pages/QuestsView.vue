@@ -91,7 +91,7 @@
                     </div>
                     <div class="field">
                         <label>Due Date (optional)</label>
-                        <input v-model="newQuest.due_date" type="date" />
+                        <input v-model="newQuest.due_date" type="date" :min="today" />
                     </div>
                     <div v-if="createError" class="form-error">{{ createError }}</div>
                     <div class="modal_actions">
@@ -275,6 +275,8 @@ const newQuest = ref({
     priority: 'medium',
     due_date: '',
 })
+
+const today = new Date().toISOString().split('T')[0]
 
 async function createQuest() {
     creating.value = true
