@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 from app.models.quest import Difficulty, Priority, QuestStatus
 
 
-# ── Request schemas ─────────────────────────────────────────────────────────
+# Request schemas
 
 class QuestCreate(BaseModel):
     name: str = Field(..., min_length=1, max_length=200)
@@ -29,7 +29,7 @@ class QuestUpdate(BaseModel):
     status: Optional[QuestStatus] = None
 
 
-# ── Response schemas ─────────────────────────────────────────────────────────
+# Response schemas
 
 class QuestPublic(BaseModel):
     id: int

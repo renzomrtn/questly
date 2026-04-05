@@ -11,7 +11,7 @@
             <button class="btn-new" @click="showCreate = true">+ New Quest</button>
         </div>
 
-        <!-- Filter tabs -->
+        <!Filter tabs -->
         <div class="filter-tabs">
             <button v-for="tab in tabs" :key="tab.value" class="filter-tab"
                 :class="{ 'filter-tab--active': activeTab === tab.value }" @click="activeTab = tab.value">
@@ -19,11 +19,11 @@
             </button>
         </div>
 
-        <!-- States -->
+        <!States -->
         <div v-if="loading" class="quests-page_loading">Loading quests...</div>
         <div v-else-if="error" class="quests-page_error">{{ error }}</div>
 
-        <!-- Quest list -->
+        <!Quest list -->
         <div v-else class="quest-list">
             <div v-for="quest in filteredQuests" :key="quest.id" class="quest-item" @click="openDetails(quest)">
                 <div class="quest-item_info">
@@ -44,7 +44,7 @@
             </div>
         </div>
 
-        <!-- XP / level-up toast -->
+        <!XP / level-up toast -->
         <Transition name="toast">
             <div v-if="toast" class="toast" :class="{ 'toast--levelup': toast.leveledUp }">
                 <span v-if="toast.leveledUp">🎉 Level up! You're now level {{ toast.newLevel }}</span>
@@ -56,7 +56,7 @@
         </Transition>
     </div>
 
-    <!-- Create Quest Modal -->
+    <!Create Quest Modal -->
     <Teleport to="body">
         <div v-if="showCreate" class="modal-overlay" @click.self="showCreate = false">
             <div class="modal">
@@ -154,7 +154,7 @@ definePageMeta({ middleware: 'auth' })
 import { ref, computed, onMounted } from 'vue'
 import api from '@/services/questService'
 
-// -- Tabs
+// Tabs
 
 const tabs = [
     { label: 'All', value: 'all' },
@@ -165,7 +165,7 @@ const tabs = [
 
 const activeTab = ref('pending')
 
-// -- State
+// State
 
 const quests = ref([])
 const loading = ref(false)
@@ -174,7 +174,7 @@ const actionLoading = ref(null)   // holds the quest id currently being acted on
 const toast = ref(null)
 let toastTimer = null
 
-// -- Tasks
+// Tasks
 const showDetails = ref(false)
 const selectedQuest = ref(null)
 
@@ -183,7 +183,7 @@ function openDetails(quest) {
     showDetails.value = true
 }
 
-// ── Fetch quests from backend
+// Fetch quests from backend
 
 async function fetchQuests() {
     loading.value = true
@@ -199,14 +199,14 @@ async function fetchQuests() {
 
 onMounted(fetchQuests)
 
-// ── Filter
+// Filter
 
 const filteredQuests = computed(() => {
     if (activeTab.value === 'all') return quests.value
     return quests.value.filter(q => q.status === activeTab.value)
 })
 
-// ── Helpers
+// Helpers
 
 function formatStatus(status) {
     const map = {
@@ -225,7 +225,7 @@ function showToast(data) {
     toastTimer = setTimeout(() => { toast.value = null }, 3500)
 }
 
-// ── Actions
+// Actions
 
 async function startQuest(id) {
     actionLoading.value = id
@@ -262,7 +262,7 @@ async function completeQuest(id) {
     }
 }
 
-// ── Create quest
+// Create quest
 
 const showCreate = ref(false)
 const creating = ref(false)

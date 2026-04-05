@@ -175,7 +175,7 @@ function logout() {
     router.push('/LoginView')
 }
 
-// ── Edit Profile ──────────────────────────────────────────────────────────────
+// Edit Profile
 const showEdit = ref(false)
 const saving = ref(false)
 const editError = ref(null)
@@ -186,7 +186,7 @@ const editForm = ref({
     avatar_url: '',
 })
 
-// ── Avatar presets ─────────────────────────────────────────────────────────
+// Avatar presets
 const PRESET_AVATARS = [
     '/avatars/chat_warrior.png',
     '/avatars/chat_mage.png',

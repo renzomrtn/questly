@@ -4,7 +4,7 @@ const BASE_URL = 'https://questly-production-75dc.up.railway.app'
 //const BASE_URL = import.meta.env.NUXT_PUBLIC_API_BASE || 'http://localhost:8000'
 console.log('API BASE URL:', BASE_URL)
 
-// ── Token helpers ─────────────────────────────────────────────────────────────
+// Token helpers
 
 function getToken() {
   return localStorage.getItem('questly_token')
@@ -28,7 +28,7 @@ function getPlayer() {
   return p ? JSON.parse(p) : null
 }
 
-// ── Base fetch wrapper ────────────────────────────────────────────────────────
+// Base fetch wrapper
 
 async function api(path, options = {}) {
   const token = getToken()
@@ -63,7 +63,7 @@ async function api(path, options = {}) {
   }
 }
 
-// ── Auth ──────────────────────────────────────────────────────────────────────
+// Auth
 
 const auth = {
   async register(name, email, password) {
@@ -103,7 +103,7 @@ const auth = {
   },
 }
 
-// ── Player ────────────────────────────────────────────────────────────────────
+// Player
 
 const players = {
   async getProfile() {
@@ -127,7 +127,7 @@ const players = {
   },
 }
 
-// ── Quests ────────────────────────────────────────────────────────────────────
+// Quests
 
 const quests = {
   async list(status = null) {
@@ -173,7 +173,7 @@ const quests = {
   },
 }
 
-// ── Achievements ──────────────────────────────────────────────────────────────
+// Achievements
 
 const achievements = {
   async listAll() {
@@ -181,7 +181,7 @@ const achievements = {
   },
 }
 
-// ── Progression ───────────────────────────────────────────────────────────────
+// Progression
 
 const progression = {
   async get() {
@@ -190,7 +190,7 @@ const progression = {
   },
 }
 
-// ── Export ────────────────────────────────────────────────────────────────────
+// Export
 
 export default {
   auth,

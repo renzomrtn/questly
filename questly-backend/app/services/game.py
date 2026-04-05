@@ -8,7 +8,7 @@ from app.config import settings
 from app.models.quest import Difficulty
 
 
-# ── XP & Level ───────────────────────────────────────────────────────────────
+# XP & Level
 
 def xp_for_level(level: int) -> int:
     """Total XP required to reach `level` from level 1."""
@@ -41,7 +41,7 @@ def calculate_level_from_total_xp(total_xp: int) -> tuple[int, int]:
     return level, xp_in_level
 
 
-# ── Difficulty helpers ────────────────────────────────────────────────────────
+# Difficulty helpers
 
 _XP_MAP = {
     Difficulty.easy: settings.xp_easy,
@@ -66,7 +66,7 @@ def default_energy_cost(difficulty: Difficulty) -> int:
     return _ENERGY_MAP[difficulty]
 
 
-# ── Energy regeneration ───────────────────────────────────────────────────────
+# Energy regeneration
 
 def regenerate_energy(player) -> bool:
     """
@@ -81,7 +81,7 @@ def regenerate_energy(player) -> bool:
     return False
 
 
-# ── Streak ────────────────────────────────────────────────────────────────────
+# Streak
 
 def update_streak(player) -> None:
     """Update the player's daily streak based on activity."""

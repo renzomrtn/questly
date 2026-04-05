@@ -4,7 +4,7 @@ from typing import Optional
 from pydantic import BaseModel, EmailStr, Field
 
 
-# ── Request schemas ─────────────────────────────────────────────────────────
+# Request schemas
 
 class PlayerRegister(BaseModel):
     name: str = Field(..., min_length=2, max_length=100)
@@ -23,7 +23,7 @@ class PlayerUpdate(BaseModel):
     avatar_url: Optional[str] = Field(None, max_length=512)
 
 
-# ── Response schemas ─────────────────────────────────────────────────────────
+# Response schemas
 
 class PlayerPublic(BaseModel):
     id: int

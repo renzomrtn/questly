@@ -22,7 +22,7 @@ from app.services.game import (
 router = APIRouter(prefix="/quests", tags=["quests"])
 
 
-# ── Helpers ───────────────────────────────────────────────────────────────────
+# Helpers
 
 def _get_quest_or_404(quest: Quest | None, player_id: int) -> Quest:
     if not quest or quest.player_id != player_id:
@@ -30,7 +30,7 @@ def _get_quest_or_404(quest: Quest | None, player_id: int) -> Quest:
     return quest
 
 
-# ── CRUD ──────────────────────────────────────────────────────────────────────
+# CRUD
 
 @router.post("/", response_model=QuestPublic, status_code=status.HTTP_201_CREATED)
 async def create_quest(
@@ -142,7 +142,7 @@ async def delete_quest(
     await db.commit()
 
 
-# ── Quest actions ─────────────────────────────────────────────────────────────
+# Quest actions
 
 @router.post("/{quest_id}/start", response_model=QuestPublic)
 async def start_quest(
@@ -282,7 +282,7 @@ async def abandon_quest(
     return quest
 
 
-# ── Internal ──────────────────────────────────────────────────────────────────
+# Internal
 
 def _apply_status_transition(quest: Quest, new_status: QuestStatus) -> None:
     now = datetime.now(timezone.utc)

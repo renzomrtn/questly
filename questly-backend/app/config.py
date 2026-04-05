@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int = 60 * 24 * 7  # 1 week
 
     # Game config
-    base_xp_per_level: int = 1000        # XP needed for level 1 → 2
+    base_xp_per_level: int = 1000        # XP needed for level 1 > 2
     xp_level_multiplier: float = 1.5     # each level costs 50% more XP
     daily_energy_max: int = 100          # max energy per day
     energy_regen_per_day: int = 100      # full refill every day
