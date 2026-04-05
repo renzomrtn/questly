@@ -11,7 +11,7 @@
                 <div class="settings-card">
                     <div class="card-header">
                         <div class="card-header_left">
-                            <i class="mdi mdi-bell-outline"></i>
+                            <i class="mdi mdi-bell-outline setting-icon"></i>
                         </div>
                         <div class="card-header_right">
                             <h3>Notifications</h3>
@@ -36,7 +36,7 @@
                 <div class="settings-card">
                     <div class="card-header">
                         <div class="card-header_left">
-                            <i class="mdi mdi-palette-outline"></i>
+                            <i class="mdi mdi-palette-outline setting-icon"></i>
                         </div>
                         <div class="card-header_right">
                             <h3>Appearance</h3>
@@ -57,7 +57,7 @@
                 <div class="settings-card">
                     <div class="card-header">
                         <div class="card-header_left">
-                            <i class="mdi mdi-account-alert-outline"></i>
+                            <i class="mdi mdi-account-alert-outline setting-icon"></i>
                         </div>
                         <div class="card-header_right">
                             <h3>Account</h3>
@@ -144,9 +144,19 @@
     padding: 0;
 }
 
+.setting-icon {
+    font-size: 26px;
+}
+
 .setting-toggle {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+
 }
 
+.toggle {
+        font-size: 24px;
+
+}
 </style>
