@@ -10,7 +10,8 @@ from app.models.player import Player
 from app.schemas.achievement import PlayerAchievementPublic
 from app.schemas.player import PlayerPublic, PlayerStats, PlayerUpdate
 from app.services.game import calculate_level_from_total_xp, xp_to_next_level
-
+from app.core.security import verify_password, hash_password 
+from app.schemas.player import ChangePasswordRequest, DeleteAccountRequest
 router = APIRouter(prefix="/players", tags=["players"])
 
 
@@ -60,3 +61,29 @@ async def get_my_achievements(
         .order_by(PlayerAchievement.unlocked_at.desc())
     )
     return result.scalars().all()
+
+
+@router.post("/me/password", status_code=204)
+async def change_password(
+    payload: ChangePasswordRequest,
+    player: Player = Depends(get_current_player),
+    db: AsyncSession = Depends(get_db),
+):
+    if not verify_password(payload.current_password, player.hashed_password):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Current password is incorrect.")
+    player.hashed_password = hash_password(payload.new_password)
+    await db.commit()
+    return None
+
+
+@router.delete("/me", status_code=204)
+async def delete_account(
+    payload: DeleteAccountRequest,
+    player: Player = Depends(get_current_player),
+    db: AsyncSession = Depends(get_db),
+):
+    if not verify_password(payload.password, player.hashed_password):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Incorrect password.")
+    await db.delete(player)
+    await db.commit()
+    return None

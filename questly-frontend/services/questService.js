@@ -5,7 +5,6 @@ const BASE_URL = 'https://questly-production-75dc.up.railway.app'
 console.log('API BASE URL:', BASE_URL)
 
 // Token helpers
-
 function getToken() {
   return localStorage.getItem('questly_token')
 }
@@ -29,7 +28,6 @@ function getPlayer() {
 }
 
 // Base fetch wrapper
-
 async function api(path, options = {}) {
   const token = getToken()
   const headers = {
@@ -64,7 +62,6 @@ async function api(path, options = {}) {
 }
 
 // Auth
-
 const auth = {
   async register(name, email, password) {
     const data = await api('/auth/register', {
@@ -104,7 +101,6 @@ const auth = {
 }
 
 // Player
-
 const players = {
   async getProfile() {
     return api('/players/me')
@@ -125,10 +121,23 @@ const players = {
   async getAchievements() {
     return api('/players/me/achievements')
   },
+
+  async changePassword(currentPassword, newPassword) {
+    return api('/players/me/password', {
+      method: 'POST',
+      body: JSON.stringify({ current_password: currentPassword, new_password: newPassword }),
+    })
+  },
+
+  async deleteAccount(password) {
+    return api('/players/me', {
+      method: 'DELETE',
+      body: JSON.stringify({ password }),
+    })
+  },
 }
 
 // Quests
-
 const quests = {
   async list(status = null) {
     const query = status ? `?status=${status}` : ''
@@ -174,7 +183,6 @@ const quests = {
 }
 
 // Achievements
-
 const achievements = {
   async listAll() {
     return api('/achievements/')
@@ -182,7 +190,6 @@ const achievements = {
 }
 
 // Progression
-
 const progression = {
   async get() {
     // Returns: { level, current_xp, xp_to_next_level, progress_percent, ... }
@@ -191,7 +198,6 @@ const progression = {
 }
 
 // Export
-
 export default {
   auth,
   players,
