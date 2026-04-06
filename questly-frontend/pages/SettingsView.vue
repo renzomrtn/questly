@@ -210,7 +210,7 @@ async function handleDeleteAccount() {
     try {
         await questService.players.deleteAccount(deletePassword.value)
         questService.auth.logout()
-        router.push('/login')
+        router.push('/LoginView')
     } catch (err) {
         deleteError.value = err.message || 'Something went wrong.'
     } finally {
