@@ -1,7 +1,7 @@
 // services/questService.js
 const nuxtApp = useNuxtApp()
 // const BASE_URL = 'https://questly-production-75dc.up.railway.app'
-const BASE_URL = import.meta.env.NUXT_PUBLIC_API_BASE || 'http://localhost:8000'
+const BASE_URL = nuxtApp.$config.public.apiBase
 console.log('API BASE URL:', BASE_URL)
 
 // Token helpers

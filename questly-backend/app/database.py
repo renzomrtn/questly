@@ -6,7 +6,7 @@ from app.config import settings
 engine = create_async_engine(
     settings.database_url,
     echo=settings.debug,
-    # connect_args removed — was SQLite only
+    connect_args={"statement_cache_size": 0},
 )
 
 AsyncSessionLocal = async_sessionmaker(
