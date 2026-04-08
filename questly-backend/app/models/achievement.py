@@ -26,7 +26,7 @@ class Achievement(Base, TimestampMixin):
     icon: Mapped[str] = mapped_column(String(100), nullable=False)  # emoji or icon name
 
     # What triggers this achievement
-    trigger: Mapped[AchievementTrigger] = mapped_column(Enum(AchievementTrigger), nullable=False)
+    trigger: Mapped[AchievementTrigger] = mapped_column(Enum(AchievementTrigger, native_enum=False), nullable=False)
     # The threshold value (e.g. reach level 5, complete 10 quests, 7-day streak)
     threshold: Mapped[int] = mapped_column(Integer, default=1)
 
