@@ -31,7 +31,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://questly-backend-0d8g.onrender.com",  # ← replace Railway URL with this
+        "https://questly-backend-0d8g.onrender.com",  # replace Railway URL
         "capacitor://localhost",
         "http://localhost",
         "https://localhost",
